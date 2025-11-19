@@ -132,219 +132,335 @@ print('All Done!!')
 # ######################################################################################################## #
 
 
-# PART TWO:
+# PART TWO: FUNCTIONS & SCOPE
+# ============================
 
-# Intro to Functions:
+# ===== SECTION 1: INTRO TO FUNCTIONS =====
+# Functions are reusable blocks of code that perform a specific task
+# They help you avoid repeating code and make programs more organized
 
-# Define a function:
+# Example 1: Basic function with no parameters or return
 def say_hello():
-    # Put here what the funcitons would be doing here:
+    """
+    A simple function that prints a greeting.
+    This function takes NO input and returns NO output.
+    """
     print('Hello, World!')
 
+# Call the function (execute the code inside)
+say_hello()  # Output: Hello, World!
 
-#  Call the function
-say_hello()
+# ===== UNDERSTANDING RETURN vs PRINT =====
+# PRINT: Shows output to the terminal (user sees it)
+# RETURN: Gives data BACK to the code that called the function (user doesn't see it unless you print it)
 
-# Example of what will not work:
-# No data is being passed or return
+# Example 2: Function with NO return statement
 what_we_get = say_hello()
-print(what_we_get)  # will return NONE
+print(what_we_get)  # Output: None (because say_hello() doesn't return anything, just prints)
 
-# This works because the key word returns data from the function
-
-
+# Example 3: Function WITH return statement
 def add_one_plus_one():
-    return 1 + 1
-
+    """
+    This function performs a calculation and RETURNS the result.
+    The return keyword sends data back to whoever called this function.
+    """
+    return 1 + 1  # Returns 2 to the caller
 
 what_we_get = add_one_plus_one()
-print(what_we_get)
+print(what_we_get)  # Output: 2 (because we returned 2 and then printed it)
 
-# You can add data types to the parameters to imply to other what is expected:
+# ===== SECTION 2: PARAMETERS & TYPE HINTS =====
+# Parameters are inputs to your function
+# Type hints (: data_type) tell other programmers what data type is expected
+# Type hints don't enforce the type - they're just documentation
 
-# Example where we pass data:
-# For example, add the expected data type:
-
-
+# Example 4: Function with parameters and type hints
 def add(number_one: int, number_two: int):
+    """
+    Takes two integers and returns their sum.
+    The ': int' after each parameter is a TYPE HINT
+    It tells others: "This function expects two integers"
+    """
     return number_one + number_two
 
+result = add(4, 4)  # Pass in two numbers (arguments)
+print(result)  # Output: 8
 
-result = add(4, 4)
-print(result)
+# ===== SECTION 3: DEFAULT PARAMETERS =====
+# Default parameters give variables a value if none is provided
+# These are OPTIONAL parameters - you can change them or skip them
 
-# Different example using multiplication:
-# You can use default parameters to hold a value and then modify iy if needed. Optional to use
-
-
+# Example 5: Function with default parameters
 def multiply(a, b, c=1):
+    """
+    Multiply three numbers together.
+    c=1 is a DEFAULT PARAMETER - if you don't pass 'c', it uses 1
+    """
     return a * b * c
 
+result_two = multiply(5, 2)        # c is not provided, so c=1 by default
+print(result_two)                  # Output: 10 (5 * 2 * 1)
 
-result_two = multiply(5, 2)
-print(result_two)
+result_three = multiply(5, 2, 3)   # c is provided as 3
+print(result_three)                # Output: 30 (5 * 2 * 3)
 
-# Not all functions are mathematicall:
+# ===== SECTION 4: FUNCTIONS WITH MULTIPLE RETURN VALUES =====
+# Functions can return data of any type (strings, numbers, booleans, etc.)
 
-
+# Example 6: Function that returns a string
 def dad_joke_creator(question: str, punchline: str):
+    """
+    Takes two strings and combines them into a joke format.
+    Returns a formatted string with both parts.
+    """
     return f'{question} {punchline} :D'
 
-
 dad_joke = dad_joke_creator(
-    "Why can't your nose be 12 inches long?", "Because then it would be a foot!")
+    "Why can't your nose be 12 inches long?",
+    "Because then it would be a foot!"
+)
 print(dad_joke)
+# Output: Why can't your nose be 12 inches long? Because then it would be a foot! :D
 
 
-# Scope:
+# ===== SECTION 5: SCOPE (GLOBAL vs LOCAL) =====
+# SCOPE determines where a variable can be accessed
+# GLOBAL SCOPE: Variable defined outside functions (can be accessed everywhere)
+# LOCAL SCOPE: Variable defined inside a function (only works inside that function)
 
-# Can be accessed from inside the functions because this is a global scope
+# ===== EXAMPLE 5A: GLOBAL SCOPE & THE 'global' KEYWORD =====
 outside_thoughts = 'I am happy and well adjusted'
 
-
 def think_about_thoughts():
-    # Access or call the global scope
-    # print(outside_thoughts)
-    # Using the keyword global will help access it and modify it inside the function and then call it outside of the function
-    global outside_thoughts
-    outside_thoughts = outside_thoughts + "but I would like a sportscar"
+    """
+    This function MODIFIES a global variable using the 'global' keyword.
+    Without 'global', Python creates a new LOCAL variable instead.
+    """
+    global outside_thoughts  # Tell Python: "I want to modify the GLOBAL variable"
+    outside_thoughts = outside_thoughts + " but I would like a sportscar"
 
-
-# This will repeat the function or what is happening inside rather
+# Call the function 4 times - each time modifies the global variable
 think_about_thoughts()
 think_about_thoughts()
 think_about_thoughts()
 think_about_thoughts()
 print(outside_thoughts)
+# Output: I am happy and well adjusted but I would like a sportscar but I would like a sportscar but I would like a sportscar but I would like a sportscar
 
-# Different Example:
+# ===== EXAMPLE 5B: LOCAL SCOPE (function variable doesn't affect global) =====
 outside_thoughts = 'I am happy and well adjusted'
 
-
 def think_inside_thoughts():
-    # We have declared a new variable called outside_thoughts in the local scope
-    outside_thoughts = 'I am an outside thought I think'
-    print(outside_thoughts)
-
+    """
+    This function creates a NEW LOCAL variable named 'outside_thoughts'
+    This does NOT modify the global 'outside_thoughts'
+    """
+    outside_thoughts = 'I am an outside thought I think'  # LOCAL variable
+    print(outside_thoughts)  # Prints the LOCAL version
 
 think_inside_thoughts()
-
+# Output: I am an outside thought I think
 
 def think_my_outside_thoughts():
-    print(outside_thoughts)
-
+    """
+    This function accesses the GLOBAL 'outside_thoughts' (no assignment)
+    Since we're not assigning to it, we don't need the 'global' keyword
+    """
+    print(outside_thoughts)  # Uses the GLOBAL version
 
 think_my_outside_thoughts()
+# Output: I am happy and well adjusted (still the original, unmodified by the previous function)
 
 
-# Login Example:
+# ===== SECTION 6: EARLY RETURNS (Return Stops Function Execution) =====
+# When Python hits a 'return' statement, it IMMEDIATELY exits the function
+# Any code after the return is NEVER executed
 
-# You can only return
+# Example 7: Multiple returns (only first one executes)
 def multiple_returns():
-    # This first return ends the functions execution
-    return "I am the return"
-    # These other returns have NO EFFECT
-    return "I'll be back"
-    return "MORE RETURNS"
-    return "EVEN MORE RETURNS"
-
+    """
+    Demonstrates that return statements end function execution.
+    Everything after the first return is UNREACHABLE CODE.
+    """
+    return "I am the return"      # This executes and exits the function
+    return "I'll be back"          # These NEVER execute
+    return "MORE RETURNS"          # (unreachable code)
+    return "EVEN MORE RETURNS"     # (unreachable code)
 
 result = multiple_returns()
-print(result)
+print(result)  # Output: I am the return
 
+
+# ===== SECTION 7: PRACTICAL EXAMPLE - LOGIN FUNCTION =====
+# Real-world example: checking username and password
 
 def login(username: str, password: str):
-    if username and password:
+    """
+    Validates a user's login credentials.
+    Returns True if credentials are correct, False otherwise.
+    
+    Steps:
+    1. Check if username and password are not empty (truthy check)
+    2. Check if they match the correct values
+    3. Return True only if ALL checks pass
+    """
+    if username and password:  # Both must be non-empty (truthy)
         correct_username = 'user123'
         correct_password = 'password123'
+        
         if username == correct_username and password == correct_password:
-            return True
+            return True  # Exit early - correct credentials!
+    
+    return False  # If any check fails, return False
 
-    return False
+# Test Case 1: Correct credentials
+logged_in = login('user123', 'password123')
+print("Logged IN:", logged_in)  # Output: Logged IN: True
+
+# Test Case 2: Wrong username
+logged_in = login('henry123', 'password123')
+print("Logged IN:", logged_in)  # Output: Logged IN: False
+
+# Test Case 3: Empty username/password
+logged_in = login('', '')
+print("Logged IN:", logged_in)  # Output: Logged IN: False
 
 
-logged_in = login('user123', 'password123')  # True
-print("Logged IN:", logged_in)
-
-logged_in = login('henry123', 'password123')  # False
-print("Logged IN:", logged_in)
-
-logged_in = login('', '')  # False
-print("Logged IN:", logged_in)
-
+# ===== SECTION 8: THE 'pass' KEYWORD =====
+# 'pass' is a placeholder - it does nothing but allows syntax to be valid
+# Use it when you need a function body but don't have code yet
 
 def passable_function():
-    # Pass keyword:
-    # The pass keyword in Python is a null operation. When executed, it does nothing.
-    # Its primary use is as a placeholder in situations where a statement is syntactically required but no code execution is desired or necessary at that moment.
-    # pass
-    pass
+    """
+    The 'pass' keyword is a null operation (does absolutely nothing).
+    
+    Common uses:
+    - Placeholder for functions you'll implement later
+    - Placeholder for empty class definitions
+    - Placeholder for empty exception handlers
+    
+    Without 'pass', Python would throw a SyntaxError for empty blocks.
+    """
+    pass  # This function literally does nothing
+
+# passable_function()  # You can call it, but it won't do anything
 
 
-# =================================================================
-# Practice:
-
+# ===== SECTION 9: PRACTICE PROBLEM - RESTAURANT BILL CALCULATOR =====
 """
-    Create a function that takes in the total price of the meal: 
-    - You can optionally add a tip, 
-    - If there are multiple people divide the grand total by the number of people
-    - Your output should be a float 
-
-    Edge Cases:
-    - What happens if someone puts in something that ISN'T a number
-    - What happends if the number of people is 0
+    CHALLENGE: Create a function that:
+    - Takes in the total price of a meal
+    - Optionally adds a tip percentage
+    - Divides the grand total by the number of people
+    - Returns a float (the per-person cost)
+    
+    EDGE CASES TO HANDLE:
+    1. What if someone passes a string instead of a number?
+    2. What if the number of people is 0? (Can't divide by zero!)
+    3. What if tip is negative?
 """
 
-# My In-Class Solution:
+# ===== STUDENT SOLUTION (My In-Class Version) =====
+# Note: This solution has some issues - see instructor solution below
+def restautarant_bill_calculator(meal_price, people=1, tip=1):
+    """
+    Student attempt at restaurant bill calculator.
+    Has some logic issues - see instructor solution for better approach.
+    """
+    result2 = 0
+    if type(people) != int:
+        print('Please Enter A Number')
+    elif people:  # Checks if people is truthy (not 0)
+        result1 = meal_price / people
+        print(result1)
+        if type(tip) != int:
+            print('Please Enter A Number')
+        elif tip:
+            result2 = result1 + tip
+            return float(result2)
 
-# def restautarant_bill_calculator(meal_price, people=1, tip = 1):
-#     result2 = 0
-#     if type(people) != int:
-#         print('Please Enter A Number')
-#     elif people:
-#         result1 = meal_price / people
-#         print(result1)
-#         if type(tip) != int:
-#             print('Please Enter A Number')
-#         elif tip:
-#             result2 = result1 + tip
-#             return float(result2)
-     
-# print(restautarant_bill_calculator(30, 3, 5))
-# print(restautarant_bill_calculator("43", 3, 5))
-# print(restautarant_bill_calculator(30, 0))
+print("=== Student Solution ===")
+print(restautarant_bill_calculator(30, 3, 5))     # Normal case
+print(restautarant_bill_calculator("43", 3, 5))   # String meal_price (shows error)
+print(restautarant_bill_calculator(30, 0))        # Zero people (edge case)
 
-# Instructor Solution:
 
-def restaurant_bill_calculator(total:float, number_of_guests:int=1, tip_percentage:float=0.0):
-
+# ===== INSTRUCTOR SOLUTION (Better Practice) =====
+def restaurant_bill_calculator(total: float, number_of_guests: int = 1, tip_percentage: float = 0.0):
+    """
+    Professional restaurant bill calculator.
+    
+    Parameters:
+    - total (float): The meal cost before tip
+    - number_of_guests (int): How many people sharing. Default = 1
+    - tip_percentage (float): Tip as decimal (0.20 = 20%). Default = 0.0 (no tip)
+    
+    Returns:
+    - float: The per-person cost including tip
+    - str: Error message if validation fails
+    
+    BEST PRACTICES SHOWN:
+    1. Type checking BEFORE calculations
+    2. Validates edge cases (0 guests)
+    3. Clear error messages
+    4. Returns consistent data type when possible
+    """
+    
+    # Validation: Check if all parameters are the correct type
+    # Note: In Python, True is technically an int, so we need strict type checking
     if type(total) == int and type(number_of_guests) == int and type(tip_percentage) == float:
+        
+        # Edge case: Can't split bill among zero people
         if number_of_guests > 0:
-            subtotal = total * (1 + tip_percentage)
-            per_guest_total = subtotal / number_of_guests
+            subtotal = total * (1 + tip_percentage)  # Add tip to total
+            per_guest_total = subtotal / number_of_guests  # Divide by guests
             return float(per_guest_total)
         else:
-            return 'Get some friends!'
+            return 'Get some friends!'  # Humorous error message
     else:
-        return 'Incorrect Data Types'
+        return 'Incorrect Data Types'  # Type validation failed
 
+print("\n=== Instructor Solution ===")
+
+# Test 1: Simple case (no tip)
 the_bill = restaurant_bill_calculator(50, 1, 0.0)
-print(f"The Total Bill: {the_bill}")
+print(f"Test 1 - No tip, 1 person: ${the_bill}")
+# Output: Test 1 - No tip, 1 person: $50.0
 
+# Test 2: Split between 2 people (no tip)
 the_bill = restaurant_bill_calculator(50, 2, 0.0)
-print(f"The Total Bill: {the_bill}")
+print(f"Test 2 - No tip, 2 people: ${the_bill}")
+# Output: Test 2 - No tip, 2 people: $25.0
 
+# Test 3: 20% tip split between 2 people
 the_bill = restaurant_bill_calculator(50, 2, 0.20)
-print(f"The Total Bill: {the_bill}")
+print(f"Test 3 - 20% tip, 2 people: ${the_bill}")
+# Output: Test 3 - 20% tip, 2 people: $30.0
 
+# Test 4: Using default parameter (1 guest, 0% tip)
 the_bill = restaurant_bill_calculator(50)
-print(f"The Total Bill: {the_bill}")
+print(f"Test 4 - Defaults: ${the_bill}")
+# Output: Test 4 - Defaults: $50.0
 
+# Test 5: EDGE CASE - Zero guests (can't divide by zero)
 the_bill = restaurant_bill_calculator(50, 0)
-print(f"The Total Bill: {the_bill}") # Will not work because you can't divide by zero, unless you had an if statement to handle this error
+print(f"Test 5 - Zero guests: {the_bill}")
+# Output: Test 5 - Zero guests: Get some friends!
 
+# Test 6: EDGE CASE - String for total price
 the_bill = restaurant_bill_calculator("50 Buckos", 5)
-print(f"The Total Bill: {the_bill}")
+print(f"Test 6 - String price: {the_bill}")
+# Output: Test 6 - String price: Incorrect Data Types
 
+# Test 7: EDGE CASE - String for number of guests
 the_bill = restaurant_bill_calculator(50, "Maybe between six or seven! We'll see!")
-print(f"The Total Bill: {the_bill}")
+print(f"Test 7 - String guests: {the_bill}")
+# Output: Test 7 - String guests: Incorrect Data Types
+
+# ===== KEY TAKEAWAYS =====
+# 1. Always validate user input before using it
+# 2. Handle edge cases (division by zero, wrong types, etc.)
+# 3. Use type hints to document expected inputs
+# 4. Return meaningful error messages or None
+# 5. Use descriptive variable names so others understand your code
+# 6. Comment complex logic for future review
