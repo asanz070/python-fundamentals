@@ -76,6 +76,36 @@ print(halfway_there([1,2,3,4,5,6]))
 # list_of_angry_bots = [("Angry " + bot) for bot in list_of_bots]
 # print("WEDNESDAY HAS RUN")
 
-from robot import Robot
+from robot import Robot, Roomba
 
 wall_e = Robot('Wall_e', "2000 years", "not that smart, he likes garbage")
+
+
+# Afternoon Practice
+
+"""
+    In a new file create a class Human and import it into your current working file...
+
+    - A Human needs these required attributes defined by its __init__ method: first_name:str, last_name:str, age:int, address:str, and is_hungry:bool
+    - A Human has a __repr__ method that outputs their information like this: Human( first_name=Bob last_name=Marley age=30 address=Jamaica is_hungry=False )
+    don't forget self in your parameters!
+    - A Human has a method named full_name() which returns a string that's a combination of their first_name and last_name
+    - A Human has a method named order_drinks() which returns "Party time!" if their age is 21 or higher and "Denied" if their age is less than that
+    - A Human has a method named eat() which sets their is_hungry attribute to False
+    - A Human has a method named win_lottery() which sets their address attribute to Disneyworld
+
+    BONUS: utilize **kargs in order to take in and assign any attribute while creating a new Human
+"""
+
+
+from human import Human
+
+alan = Human(first_name="Alan", last_name="Sanchez", age=28, address="TomorrowLand", is_hungry=False)
+
+print(alan)
+print(alan.full_name())
+print(alan.order_drinks())
+alan.eat()
+print(alan.is_hungry)
+alan.win_lottery()
+print(alan.address)

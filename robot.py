@@ -16,6 +16,7 @@ def robot_uprising():
 
 # Class is a blueprint that makes instances of that new data type / class
 
+
 class Robot:
     consistency = 'metal'
 
@@ -34,7 +35,7 @@ class Robot:
     # Representation that will show when we print the robot
     def __repr__(self):
         return f"Robot ({self.name} battery_life={self.battery_life} processing_power={self.processing_power})"
-    
+
     # What we see when we print() or make our instance into a string with str()
     def __str__(self):
         return f"HELLO I AM A ROBOT NAMED {self.name}"
@@ -51,3 +52,27 @@ class Robot:
 
     def analyze_info(self, info):
         return f"BEEP BOOP ANALYZING {info}"
+
+    # The @ sign is a decorator that modifies the function that follows it
+    # in this case it makes the method a class method that can be called on the class itself
+    @classmethod
+    # cls references the class itself, almost like "self" but for the class
+    def build_killer_robot(cls, name):
+        print(cls)
+        new_bot = Robot(name=name, battery_life="way too long",
+                        processing_power="kill", mode="destroy all humans")
+        new_bot.consistency = "aluminum"
+        return new_bot
+
+    # D.R.Y - Don't Repeat Yourself
+
+# The Roomba inherits from Robot (you could say it's a type of robot)
+class Roomba(Robot):
+
+    consistency = 'Cheap Plastic'
+
+    def __repr__(self):
+        return f"Roomba ( name={self.name} battery_life={self.battery_life} processing_power={self.processing_power})"
+
+    def vacuum(self):
+        return "VRRRRRRRRRRRRRRR BUMP BUMP BUMP"
